@@ -29,6 +29,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 }
 </style>
