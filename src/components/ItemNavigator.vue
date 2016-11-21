@@ -1,32 +1,78 @@
 <template>
   <div class="itemNavigator">
     <ul class="itemList">
-      <li class="item" v-for="itemName in items">{{itemName}}</li>
+      <li
+        class="item"
+        v-for="(item, index) in products"
+      >
+        <div
+          class="itemNavigatorItem"
+          :class="{ active: currentIndex === index }"
+          v-on:click="changeProductIndex(index)"
+          :style="{ backgroundImage: 'url(' + item.photo + ')' }" />
+        <span>{{item.name}}</span>          
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
+  import { mapActions, mapGetters } from 'vuex';
+
+  const mock = require('../mock/designer');
+
   export default {
     name: 'item-navigator',
     props: ['selectedNavigatorTab'],
     data() {
       return {
-        items: ['Gilden Soft', 'Giden Not Soft'],
+        products: mock.product.products,
       };
+    },
+    computed: {
+      ...mapGetters({
+        currentIndex: 'currentProductIndex',
+      }),
+    },
+    methods: {
+      ...mapActions(['changeProductIndex']),
     },
   };
 </script>
 
 <style scoped>
+  .itemNavigatorItem {
+    flex: 1;
+    background-position: center;
+    background-size: cover;
+    border: 1.5px solid black;
+    border-radius: 3px;
+    margin-top: 10px;
+  }
+
+  .itemNavigatorItem.active {
+    border-color: rgb(47, 123, 189);
+  }
+
+  .itemNavigatorItem:hover {
+    opacity: 0.7;
+  }
+
   .item {
-    color: white;
     margin: 0 20px;
-    display: inline;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    height: 80%;
+  }
+
+  .item span {
+    color: white;
+    margin: 5px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    text-align: center;
   }
   
   .itemList {

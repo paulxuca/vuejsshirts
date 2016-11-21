@@ -6,7 +6,6 @@
         <li v-on:click="selectNavigatorTab('art')" v-bind:class="{ active: selectedNavigatorTab === 'art' }">Art</li>
         <li v-on:click="selectNavigatorTab('text')" v-bind:class="{ active: selectedNavigatorTab === 'text' }">Text</li>
         <li v-on:click="selectNavigatorTab('upload')" v-bind:class="{ active: selectedNavigatorTab === 'upload' }">Upload</li>
-        
       </ul>
     </div>
   </div>

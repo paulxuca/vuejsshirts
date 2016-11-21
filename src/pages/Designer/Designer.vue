@@ -29,9 +29,8 @@
 </template>
 
 <script>
-  // import Editor from '../components/Editor';
-  import DesignNavigator from '../components/DesignNavigator';
-  import ItemNavigator from '../components/ItemNavigator';
+  import DesignNavigator from 'components/DesignNavigator';
+  import ItemNavigator from 'components/ItemNavigator';
 
   const FabricJS = require('fabric').fabric;
 
