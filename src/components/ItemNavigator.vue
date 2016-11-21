@@ -7,8 +7,8 @@
       >
         <div
           class="itemNavigatorItem"
-          :class="{ active: currentIndex === index }"
-          v-on:click="changeProductIndex(index)"
+          :class="{ active: selectedProductIndex === index }"
+          v-on:click="changeProduct(index)"
           :style="{ backgroundImage: 'url(' + item.photo + ')' }" />
         <span>{{item.name}}</span>          
       </li>
@@ -17,25 +17,16 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex';
 
   const mock = require('../mock/designer');
 
   export default {
     name: 'item-navigator',
-    props: ['selectedNavigatorTab'],
+    props: ['selectedNavigatorTab', 'changeProduct', 'selectedProductIndex'],
     data() {
       return {
         products: mock.product.products,
       };
-    },
-    computed: {
-      ...mapGetters({
-        currentIndex: 'currentProductIndex',
-      }),
-    },
-    methods: {
-      ...mapActions(['changeProductIndex']),
     },
   };
 </script>

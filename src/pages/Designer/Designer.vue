@@ -18,7 +18,11 @@
       v-bind:class="{ active: selectedNavigatorTab }"      
     >
       <item-navigator
+        class="navigator"
+        :class="{ displayNavigator: selectedNavigatorTab === 'product' }"
         :selected-navigator-tab="selectedNavigatorTab"
+        :change-product="changeProduct"
+        :selected-product-index="selectedProductIndex"
       />
     </div>
     <design-navigator
@@ -29,6 +33,7 @@
 </template>
 
 <script>
+
   import DesignNavigator from 'components/DesignNavigator';
   import ItemNavigator from 'components/ItemNavigator';
 
@@ -42,6 +47,7 @@
     data() {
       return {
         selectedNavigatorTab: '',
+        selectedProductIndex: null,
         fabricInstance: fabric,
       };
     },
@@ -54,6 +60,11 @@
           this.selectedNavigatorTab = '';
         } else {
           this.selectedNavigatorTab = newTab;
+        }
+      },
+      changeProduct(newProductIndex) {
+        if (newProductIndex !== this.selectedProductIndex) {
+          this.selectedProductIndex = newProductIndex;
         }
       },
     },
@@ -71,6 +82,14 @@
 </style>
 
 <style scoped>
+  .navigator {
+    display: none;
+  }
+
+  .displayNavigator {
+    display: block;
+  }
+
   .designNavigatorSlideIn {
     position: relative;
     height: 200px;
@@ -80,7 +99,7 @@
     z-index: 1;
     background-color: rgba(37, 44, 58, 0.988235);
     transition: all 0.2s ease;
-    display: flex;   
+    display: flex;
   }
 
   .designNavigatorSlideIn.active {
