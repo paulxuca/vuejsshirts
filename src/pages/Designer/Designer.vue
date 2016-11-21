@@ -7,9 +7,14 @@
       <div class="designSection">
       </div>
       <div class="designSection">
-        <canvas
-          id="fabric"
-        />
+        <div
+          class="designCanvasImage"
+          :style="{ backgroundImage: 'url(' + currentProductImage +')' }"
+        >
+          <canvas
+            id="fabric"
+          />
+        </div>
       </div>
       <div class="designSection" />      
     </div>
@@ -23,6 +28,7 @@
         :selected-navigator-tab="selectedNavigatorTab"
         :change-product="changeProduct"
         :selected-product-index="selectedProductIndex"
+        :products="products"
       />
     </div>
     <design-navigator
@@ -33,6 +39,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
 
   import DesignNavigator from 'components/DesignNavigator';
   import ItemNavigator from 'components/ItemNavigator';
@@ -47,12 +54,29 @@
     data() {
       return {
         selectedNavigatorTab: '',
-        selectedProductIndex: null,
+        selectedProductIndex: undefined,
         fabricInstance: fabric,
       };
     },
     mounted: () => {
       fabric = new FabricJS.Canvas('fabric', { height: 600, width: 400 });
+    },
+    computed: {
+      ...mapGetters({
+        products: 'products',
+      }),
+      currentProduct: function() { // eslint-disable-line
+        if (this.selectedProductIndex + 1) {
+          return this.products[this.selectedProductIndex];
+        }
+        return undefined;
+      },
+      currentProductImage: function() { // eslint-disable-line
+        if (this.currentProduct) {
+          return this.currentProduct.photo;
+        }
+        return '';
+      },
     },
     methods: {
       selectNavigatorTab(newTab) {
@@ -91,7 +115,7 @@
   }
 
   .designNavigatorSlideIn {
-    position: relative;
+    position: absolute;
     height: 200px;
     width: 100%;
     bottom: 0px;
@@ -103,11 +127,13 @@
   }
 
   .designNavigatorSlideIn.active {
-    transform: translateY(0px);
+    transform: translateY(-55px);
   }
 
   .designPage {
     flex: 1;
+    overflow: hidden;
+    position: relative;
     flex-direction: column;
     display: flex;
   }
@@ -123,4 +149,12 @@
     justify-content: center;
     align-items: center;
   }
+  
+  .designCanvasImage {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+  }
+
 </style>

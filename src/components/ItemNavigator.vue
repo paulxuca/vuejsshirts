@@ -17,16 +17,21 @@
 </template>
 
 <script>
-
-  const mock = require('../mock/designer');
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'item-navigator',
-    props: ['selectedNavigatorTab', 'changeProduct', 'selectedProductIndex'],
-    data() {
-      return {
-        products: mock.product.products,
-      };
+    props: [
+      'selectedNavigatorTab',
+      'changeProduct',
+      'selectedProductIndex',
+      'products',
+    ],
+    created: function() { // eslint-disable-line
+      this.fetchProducts();
+    },
+    methods: {
+      ...mapActions(['fetchProducts']),
     },
   };
 </script>
@@ -60,7 +65,7 @@
 
   .item span {
     color: white;
-    margin: 5px;
+    margin-top: 10px;
     color: rgba(255, 255, 255, 0.8);
     font-size: 12px;
     text-align: center;

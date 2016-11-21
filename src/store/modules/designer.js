@@ -1,29 +1,41 @@
 /* eslint no-param-reassign: 0 */
+import mock from 'src/mock/designer';
+
 const actionTypes = {
-  CHANGE_PRODUCT_INDEX: 'CHANGE_PRODUCT_INDEX',
+  FETCH_PRODUCTS: 'FETCH_PRODUCTS',
+  FETCH_PRODUCTS_SUCCESS: 'FETCH_PRODUCTS_SUCCESS',
+  FETCH_PRODUCTS_ERROR: 'FETCH_PRODUCTS_ERROR',
 };
 
 const moduleState = {
+  isAction: false,
   product: {
-    selectedIndex: null,
+    products: null,
   },
 };
 
 const getters = {
-  currentProductIndex: state => state.product.selectedIndex,
+  products: state => state.product.products,
 };
 
 const actions = {
-  changeProductIndex({ commit, state }, newIndex) {
-    if (state.product.selectedIndex !== newIndex) {
-      commit(actionTypes.CHANGE_PRODUCT_INDEX, newIndex);
+  fetchProducts({ commit }) {
+    let products;
+    commit(actionTypes.FETCH_PRODUCTS);
+    if (process.env.NODE_ENV === 'development') {
+      products = mock.product.products;
     }
+    commit(actionTypes.FETCH_PRODUCTS_SUCCESS, products);
   },
 };
 
 const mutations = {
-  [actionTypes.CHANGE_PRODUCT_INDEX](state, newIndex) {
-    state.product.selectedIndex = newIndex;
+  [actionTypes.FETCH_PRODUCTS](state) {
+    state.isAction = true;
+  },
+  [actionTypes.FETCH_PRODUCTS_SUCCESS](state, productData) {
+    state.isAction = false;
+    state.product.products = productData;
   },
 };
 
