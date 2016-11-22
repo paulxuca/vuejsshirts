@@ -5,9 +5,10 @@
     <input
       class="artTermInput"
       type="text"
-      placeholder="Search"
+      :placeholder="canAddElements ? 'Search' : 'Select a product first!'"
       v-model="searchTerm"
       v-on:keyup="throttledFetch"
+      :disabled="!canAddElements"
     />
   </div>
 </template>
@@ -22,6 +23,9 @@
         searchTerm: '',
       };
     },
+    props: [
+      'canAddElements',
+    ],
     methods: {
       ...mapActions([
         'fetchArt',
@@ -35,6 +39,15 @@
 </script>
 
 <style>
+.artNavigatorSearch {
+  display: flex;
+  align-items: center;
+}
+.indicator {
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
 .artTermInput {
   float: right;
   margin: 12px;

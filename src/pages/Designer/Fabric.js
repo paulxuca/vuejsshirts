@@ -5,6 +5,8 @@ export default class Fabric {
     this.fabric = fabric;
     this.addImage = this.addImage.bind(this);
     this.deleteActiveElement = this.deleteActiveElement.bind(this);
+    this.sendBack = this.sendBack.bind(this);
+    this.sendForward = this.sendForward.bind(this);
   }
 
   addImage(imageUrl) {
@@ -29,10 +31,28 @@ export default class Fabric {
     return null;
   }
 
+  sendBack() {
+    const object = this.fabric.getActiveObject();
+    if (object) {
+      object.sendBackwards();
+      this.fabric.renderAll();
+    }
+  }
+
+  sendForward() {
+    const object = this.fabric.getActiveObject();
+    if (object) {
+      object.bringForward();
+      this.fabric.renderAll();
+    }
+  }
+
   methods() {
     return {
       addImg: this.addImage,
       deleteActive: this.deleteActiveElement,
+      sendBack: this.sendBack,
+      sendForward: this.sendBackwards,
     };
   }
 }

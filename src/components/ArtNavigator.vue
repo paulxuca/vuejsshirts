@@ -32,25 +32,21 @@
 </script>
 
 <style scoped>
-  .itemList {
-    background-color: white;
-  }
-
   .item {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
   }
 
   .itemList li:hover {
     transform: scale(1.1);
-    transition: 0.25s ease;
+    transition: 0.3s ease-in;
 
   }
-
   .icon {
+    filter: brightness(10) invert(1);
+    -webkit-filter: brightness(10) invert(1);
     height: 100px;
     width: 100px;
     background-position: center;

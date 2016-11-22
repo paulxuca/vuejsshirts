@@ -3,6 +3,7 @@
     <div class="designNavigator">
 
     </div>
+    <editor-controls :fabric-method="fabricMethod" />
     <div class="designContainer">
       <div class="designSection">
       </div>
@@ -29,7 +30,14 @@
           </button>
         </div>
         <div class="designNavigator__interact">
-          <art-navigator-search :class="{ isHidden: selectedNavigatorTab !== 'art' }"/>
+          <art-navigator-search
+            :class="{ isHidden: selectedNavigatorTab !== 'art' }"
+            :can-add-elements="canAddElements"
+          />
+          <text-navigator-input
+            :class="{ isHidden: selectedNavigatorTab !== 'text' }"
+            :can-add-elements="canAddElements"
+          />
         </div>
       </div>
       <product-navigator
@@ -46,6 +54,10 @@
         :fabric-method="fabricMethod"
         :class="{ displayNavigator: selectedNavigatorTab === 'art' }"
       />
+      <text-navigator
+        class="navigator"
+        :class="{ displayNavigator: selectedNavigatorTab === 'text' }"
+      />
     </div>
     <design-navigator
       :select-navigator-tab="selectNavigatorTab"
@@ -60,7 +72,11 @@
   import DesignNavigator from 'components/DesignNavigator';
   import ProductNavigator from 'components/ProductNavigator';
   import ArtNavigator from 'components/ArtNavigator';
+  import TextNavigator from 'components/TextNavigator/TextNavigator';
+
   import ArtNavigatorSearch from 'components/ArtNavigatorSearch';
+  import TextNavigatorInput from 'components/TextNavigatorInput';
+  import EditorControls from 'components/EditorControls/EditorControls';
   import Fabric from './Fabric';
 
   const FabricJS = require('fabric').fabric;
@@ -73,6 +89,9 @@
       ProductNavigator,
       ArtNavigator,
       ArtNavigatorSearch,
+      TextNavigatorInput,
+      EditorControls,
+      TextNavigator,
     },
     name: 'designer',
     data() {
@@ -102,6 +121,10 @@
           return this.currentProduct.photo;
         }
         return '';
+      },
+      canAddElements: function() { // eslint-disable-line
+        if (this.currentProduct) return true;
+        return false;
       },
     },
     methods: {
