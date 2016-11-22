@@ -1,41 +1,63 @@
 /* eslint no-param-reassign: 0 */
-import mock from 'src/mock/designer';
+import { getProducts, getArt } from 'src/api/designer';
 
 const actionTypes = {
-  FETCH_PRODUCTS: 'FETCH_PRODUCTS',
+  FETCH: 'FETCH',
   FETCH_PRODUCTS_SUCCESS: 'FETCH_PRODUCTS_SUCCESS',
-  FETCH_PRODUCTS_ERROR: 'FETCH_PRODUCTS_ERROR',
+  FETCH_ART_SUCCESS: 'FETCH_ART_SUCCESS',
+  FETCH_ERROR: 'FETCH_ERROR',
 };
 
 const moduleState = {
-  isAction: false,
+  actionState: {
+    isAction: false,
+    actionError: false,
+    currentActor: false,
+  },
+  art: {
+    arts: null,
+  },
   product: {
     products: null,
   },
 };
 
 const getters = {
+  arts: state => state.art.arts,
   products: state => state.product.products,
 };
 
 const actions = {
+  fetchArt({ commit }, term) {
+    commit(actionTypes.FETCH, 'art');
+    getArt(term)
+      .then(icons => commit(actionTypes.FETCH_ART_SUCCESS, icons))
+      .catch(err => commit(actionTypes.FETCH_ERROR, err));
+  },
   fetchProducts({ commit }) {
-    let products;
-    commit(actionTypes.FETCH_PRODUCTS);
-    if (process.env.NODE_ENV === 'development') {
-      products = mock.product.products;
-    }
-    commit(actionTypes.FETCH_PRODUCTS_SUCCESS, products);
+    commit(actionTypes.FETCH, 'products');
+    getProducts()
+      .then(prods => commit(actionTypes.FETCH_PRODUCTS_SUCCESS, prods))
+      .catch(err => commit(actionTypes.FETCH_ERROR, err));
   },
 };
 
 const mutations = {
-  [actionTypes.FETCH_PRODUCTS](state) {
-    state.isAction = true;
+  [actionTypes.FETCH](state, entity) {
+    state.actionState.isAction = true;
+    state.actionState.currentActor = entity;
   },
   [actionTypes.FETCH_PRODUCTS_SUCCESS](state, productData) {
-    state.isAction = false;
+    state.actionState.isAction = false;
     state.product.products = productData;
+  },
+  [actionTypes.FETCH_ART_SUCCESS](state, icons) {
+    state.art.arts = icons;
+    state.actionState.isAction = false;
+  },
+  [actionTypes.FETCH_ERROR](state, error) {
+    state.actionState.actionError = error;
+    state.actionState.isAction = false;
   },
 };
 

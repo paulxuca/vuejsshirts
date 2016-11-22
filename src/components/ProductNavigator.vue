@@ -10,7 +10,7 @@
           :class="{ active: selectedProductIndex === index }"
           v-on:click="changeProduct(index)"
           :style="{ backgroundImage: 'url(' + item.photo + ')' }" />
-        <span>{{item.name}}</span>          
+        <span>{{item.name}}</span>
       </li>
     </ul>
   </div>
@@ -20,7 +20,7 @@
   import { mapActions } from 'vuex';
 
   export default {
-    name: 'item-navigator',
+    name: 'product-navigator',
     props: [
       'selectedNavigatorTab',
       'changeProduct',
@@ -35,6 +35,25 @@
     },
   };
 </script>
+
+<style>
+  .itemList {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .itemNavigator {
+    flex: 1;
+    position: relative;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+</style>
 
 <style scoped>
   .itemNavigatorItem {
@@ -69,21 +88,5 @@
     color: rgba(255, 255, 255, 0.8);
     font-size: 12px;
     text-align: center;
-  }
-  
-  .itemList {
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-  }
-
-  .itemNavigator {
-    flex: 1;
-    position: relative;
-    overflow-x: scroll;
-    overflow-y: hidden;
   }
 </style>

@@ -6,11 +6,16 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
+    "server": "node server/index.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
     "fabric": "^1.6.7",
+    "lodash.debounce": "^4.0.8",
+    "the-noun-project": "^2.0.1",
     "vue": "^2.0.1",
     "vue-router": "^2.0.3",
     "vuex": "^2.0.0",

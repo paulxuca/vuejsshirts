@@ -22,13 +22,29 @@
       class="designNavigatorSlideIn"
       v-bind:class="{ active: selectedNavigatorTab }"      
     >
-      <item-navigator
+      <div class="designNavigatorControls">
+        <div class="designNavigatorControlsButtons">
+          <button class="closeButton" v-on:click="selectedNavigatorTab = ''">
+            <span>Close</span>
+          </button>
+        </div>
+        <div class="designNavigator__interact">
+          <art-navigator-search :class="{ isHidden: selectedNavigatorTab !== 'art' }"/>
+        </div>
+      </div>
+      <product-navigator
         class="navigator"
         :class="{ displayNavigator: selectedNavigatorTab === 'product' }"
         :selected-navigator-tab="selectedNavigatorTab"
         :change-product="changeProduct"
         :selected-product-index="selectedProductIndex"
         :products="products"
+      />
+      <art-navigator
+        class="navigator"
+        :arts="art"
+        :fabric-method="fabricMethod"
+        :class="{ displayNavigator: selectedNavigatorTab === 'art' }"
       />
     </div>
     <design-navigator
@@ -42,28 +58,38 @@
   import { mapGetters } from 'vuex';
 
   import DesignNavigator from 'components/DesignNavigator';
-  import ItemNavigator from 'components/ItemNavigator';
+  import ProductNavigator from 'components/ProductNavigator';
+  import ArtNavigator from 'components/ArtNavigator';
+  import ArtNavigatorSearch from 'components/ArtNavigatorSearch';
+  import Fabric from './Fabric';
 
   const FabricJS = require('fabric').fabric;
 
   let fabric;
 
   export default {
-    components: { DesignNavigator, ItemNavigator },
+    components: {
+      DesignNavigator,
+      ProductNavigator,
+      ArtNavigator,
+      ArtNavigatorSearch,
+    },
     name: 'designer',
     data() {
       return {
         selectedNavigatorTab: '',
         selectedProductIndex: undefined,
-        fabricInstance: fabric,
       };
     },
-    mounted: () => {
-      fabric = new FabricJS.Canvas('fabric', { height: 600, width: 400 });
+    mounted: function() { // eslint-disable-line
+      window.addEventListener('keydown', this.onKeyDown, false);
+      const fabricObj = new FabricJS.Canvas('fabric', { height: 600, width: 400 });
+      fabric = new Fabric(fabricObj);
     },
     computed: {
       ...mapGetters({
         products: 'products',
+        art: 'arts',
       }),
       currentProduct: function() { // eslint-disable-line
         if (this.selectedProductIndex + 1) {
@@ -79,6 +105,19 @@
       },
     },
     methods: {
+      onKeyDown(e) {
+        switch (e.keyCode) {
+          case 8:
+          case 46:
+            this.fabricMethod('deleteActive');
+            break;
+          default:
+            break;
+        }
+      },
+      fabricMethod(method, ...args) {
+        fabric.methods()[method](args);
+      },
       selectNavigatorTab(newTab) {
         if (newTab === this.selectedNavigatorTab) {
           this.selectedNavigatorTab = '';
@@ -106,6 +145,49 @@
 </style>
 
 <style scoped>
+  .isHidden {
+    display: none;
+  }
+
+  .closeButton {
+    background-color: transparent;
+    border: none;
+    color: white;
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 10px;
+  }
+
+  .closeButton:hover {
+    opacity: 1;
+  }
+
+  .closeButton:focus {
+    outline: 0;
+  }
+
+  .designNavigatorControlsButtons {
+    justify-content: center;
+    flex: 1;
+    display: flex;
+    max-width: 100px;
+    border-left: 1px solid rgb(28, 34, 45);
+  }
+
+  .designNavigatorControls {
+    flex-direction: row-reverse;    
+    position: absolute;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    top: -50px;
+    background: #1F2532;
+    border-bottom: 1px solid rgb(28, 34, 45);
+    border-top: 1px solid rgb(28, 34, 45);
+  }
+
   .navigator {
     display: none;
   }
