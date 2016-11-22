@@ -52,6 +52,7 @@ export default class Fabric {
     const textObj = new FabricJS.Text(text, {
       fontFamily: family,
       fontSize: 20,
+      lockUniScaling: true,
     });
     this.fabric.add(textObj);
     this.fabric.renderAll();

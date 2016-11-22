@@ -7,7 +7,7 @@
     <div class="designContainer">
       <div class="designSection">
       </div>
-      <div class="designSection">
+      <div class="designSection" style="position: relative">
         <div
           class="designCanvasImage"
           :style="{ backgroundImage: 'url(' + currentProductImage +')' }"
@@ -119,7 +119,7 @@
       },
       currentProductImage: function() { // eslint-disable-line
         if (this.currentProduct) {
-          return this.currentProduct.photo;
+          return this.currentProduct.product;
         }
         return '';
       },
@@ -169,6 +169,10 @@
 </style>
 
 <style scoped>
+  .productOverlay {
+    position: absolute;
+  }
+
   .isHidden {
     display: none;
   }
@@ -257,7 +261,7 @@
   }
   
   .designCanvasImage {
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     height: 100%;

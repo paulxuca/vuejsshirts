@@ -4,32 +4,68 @@
       <ul class="controlsList">
         <li
           v-for="control in controls"
-          v-on:click="fabricMethod(control.control)"
+          @click="controlHandler(control)"
         >
           <i :class="control.icon" />
         </li>
       </ul>
+      <swatches
+        v-model="colors"
+        class="colorPicker"
+        :class="{ active: toggleColorPicker }"
+      />
     </div>
   </div>
 </template>
 
 <script>
-  import { controls } from './controls';
+  import { Swatches } from 'vue-color';
+  import { controls, defaultColor } from './editor';
 
   export default {
     name: 'editor-controls',
     props: [
       'fabricMethod',
     ],
+    components: {
+      swatches: Swatches,
+    },
+    methods: {
+      controlHandler: function(control) { // eslint-disable-line
+        if (control.control) {
+          this.fabricMethod(control.control);
+        } else if (control.noControl) {
+          this.toggleColorPicker = !this.toggleColorPicker;
+        }
+      },
+      onColorChange: function(color) { // eslint-disable-line
+        this.colors = color;
+      },
+    },
     data() {
       return {
+        toggleColorPicker: false,
         controls,
+        colors: defaultColor,
       };
     },
   };
 </script>
 
 <style scoped>
+  .colorPicker.active {
+    display: block;
+  }
+
+  .colorPicker {
+    display: none;
+    position: absolute;
+    top: 105px;
+    left: 0px;
+    box-shadow: none;
+    border:1px solid #EEE;
+  }
+
   .editorControls {
     width: 100%;
     flex: 1;
