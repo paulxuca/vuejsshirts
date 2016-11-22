@@ -56,6 +56,7 @@
       />
       <text-navigator
         class="navigator"
+        :fabric-method="fabricMethod"
         :class="{ displayNavigator: selectedNavigatorTab === 'text' }"
       />
     </div>
@@ -139,7 +140,7 @@
         }
       },
       fabricMethod(method, ...args) {
-        fabric.methods()[method](args);
+        fabric.methods()[method](...args);
       },
       selectNavigatorTab(newTab) {
         if (newTab === this.selectedNavigatorTab) {

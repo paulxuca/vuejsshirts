@@ -4,26 +4,30 @@
       class="artTermInput"
       type="text"
       :placeholder="canAddElements ? 'Add text' : 'Select a product first!'"
-      v-model="textInput"
+      :value="textInput"
+      @input="changeTextTerm"
       :disabled="!canAddElements"
     />
   </div>
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: 'text-navigator-input',
-    data() {
-      return {
-        textInput: '',
-      };
+    computed: {
+      ...mapGetters({
+        text: 'textInput',
+      }),
     },
     props: [
       'canAddElements',
     ],
     methods: {
-
+      ...mapActions([
+        'changeTextTerm',
+      ]),
     },
   };
 </script>

@@ -7,6 +7,7 @@ export default class Fabric {
     this.deleteActiveElement = this.deleteActiveElement.bind(this);
     this.sendBack = this.sendBack.bind(this);
     this.sendForward = this.sendForward.bind(this);
+    this.addText = this.addText.bind(this);
   }
 
   addImage(imageUrl) {
@@ -47,12 +48,22 @@ export default class Fabric {
     }
   }
 
+  addText(text, family) {
+    const textObj = new FabricJS.Text(text, {
+      fontFamily: family,
+      fontSize: 20,
+    });
+    this.fabric.add(textObj);
+    this.fabric.renderAll();
+  }
+
   methods() {
     return {
       addImg: this.addImage,
       deleteActive: this.deleteActiveElement,
       sendBack: this.sendBack,
       sendForward: this.sendBackwards,
+      addText: this.addText,
     };
   }
 }

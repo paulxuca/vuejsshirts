@@ -6,6 +6,7 @@ const actionTypes = {
   FETCH_PRODUCTS_SUCCESS: 'FETCH_PRODUCTS_SUCCESS',
   FETCH_ART_SUCCESS: 'FETCH_ART_SUCCESS',
   FETCH_ERROR: 'FETCH_ERROR',
+  CHANGE_TEXT_TERM: 'CHANGE_TEXT_TERM',
 };
 
 const moduleState = {
@@ -20,14 +21,21 @@ const moduleState = {
   product: {
     products: null,
   },
+  editor: {
+    textInput: '',
+  },
 };
 
 const getters = {
   arts: state => state.art.arts,
   products: state => state.product.products,
+  textInput: state => state.editor.textInput,
 };
 
 const actions = {
+  changeTextTerm({ commit }, e) {
+    commit(actionTypes.CHANGE_TEXT_TERM, e.target.value);
+  },
   fetchArt({ commit }, term) {
     commit(actionTypes.FETCH, 'art');
     getArt(term)
@@ -58,6 +66,9 @@ const mutations = {
   [actionTypes.FETCH_ERROR](state, error) {
     state.actionState.actionError = error;
     state.actionState.isAction = false;
+  },
+  [actionTypes.CHANGE_TEXT_TERM](state, term) {
+    state.editor.textInput = term;
   },
 };
 
