@@ -7,10 +7,13 @@
     <div class="designContainer">
       <div class="designSection">
       </div>
-      <div class="designSection" style="position: relative">
+      <div
+        class="designSection"
+        style="position: relative; min-width: 500px;"
+      >
         <div
-          class="designCanvasImage"
-          :style="{ backgroundImage: 'url(' + currentProductImage +')' }"
+          class="designCanvas__image"
+          :style="{ backgroundImage: 'url(' + currentProductImage +')', backgroundColor: selectedProductColor }"
         >
           <canvas
             id="fabric"
@@ -19,23 +22,27 @@
       </div>
       <div class="designSection" />      
     </div>
+    <color-picker
+      :current-product-colors="currentProductColors"
+      :select-product-color="selectProductColor"
+    />
     <div
-      class="designNavigatorSlideIn"
+      class="designNavigator__slideIn"
       v-bind:class="{ active: selectedNavigatorTab }"      
     >
-      <div class="designNavigatorControls">
-        <div class="designNavigatorControlsButtons">
+      <div class="designNavigator__controls">
+        <div class="designNavigator__controlsButtons">
           <button class="closeButton" v-on:click="selectedNavigatorTab = ''">
             <span>Close</span>
           </button>
         </div>
         <div class="designNavigator__interact">
           <art-navigator-search
-            :class="{ isHidden: selectedNavigatorTab !== 'art' }"
+            :class="{ hidden: selectedNavigatorTab !== 'art' }"
             :can-add-elements="canAddElements"
           />
           <text-navigator-input
-            :class="{ isHidden: selectedNavigatorTab !== 'text' }"
+            :class="{ hidden: selectedNavigatorTab !== 'text' }"
             :can-add-elements="canAddElements"
           />
         </div>
@@ -77,7 +84,10 @@
 
   import ArtNavigatorSearch from 'components/ArtNavigatorSearch';
   import TextNavigatorInput from 'components/TextNavigatorInput';
+
   import EditorControls from 'components/EditorControls/EditorControls';
+  import ColorPicker from 'components/ColorPicker';
+  
   import Fabric from './Fabric';
 
   const FabricJS = require('fabric').fabric;
@@ -93,17 +103,19 @@
       TextNavigatorInput,
       EditorControls,
       TextNavigator,
+      ColorPicker,
     },
     name: 'designer',
     data() {
       return {
         selectedNavigatorTab: '',
+        selectedProductColor: 'white',
         selectedProductIndex: undefined,
       };
     },
     mounted: function() { // eslint-disable-line
       window.addEventListener('keydown', this.onKeyDown, false);
-      const fabricObj = new FabricJS.Canvas('fabric', { height: 600, width: 400 });
+      const fabricObj = new FabricJS.Canvas('fabric', { height: 500, width: 400 });
       fabric = new Fabric(fabricObj);
     },
     computed: {
@@ -114,6 +126,12 @@
       currentProduct: function() { // eslint-disable-line
         if (this.selectedProductIndex + 1) {
           return this.products[this.selectedProductIndex];
+        }
+        return undefined;
+      },
+      currentProductColors: function () { // eslint-disable-line
+        if (this.currentProduct) {
+          return this.currentProduct.colors;
         }
         return undefined;
       },
@@ -138,6 +156,9 @@
           default:
             break;
         }
+      },
+      selectProductColor(color) {
+        this.selectedProductColor = color;
       },
       fabricMethod(method, ...args) {
         fabric.methods()[method](...args);
@@ -173,7 +194,7 @@
     position: absolute;
   }
 
-  .isHidden {
+  .hidden {
     display: none;
   }
 
@@ -196,7 +217,7 @@
     outline: 0;
   }
 
-  .designNavigatorControlsButtons {
+  .designNavigator__controlsButtons {
     justify-content: center;
     flex: 1;
     display: flex;
@@ -204,7 +225,7 @@
     border-left: 1px solid rgb(28, 34, 45);
   }
 
-  .designNavigatorControls {
+  .designNavigator__controls {
     flex-direction: row-reverse;    
     position: absolute;
     display: flex;
@@ -224,7 +245,7 @@
     display: block;
   }
 
-  .designNavigatorSlideIn {
+  .designNavigator__slideIn {
     position: absolute;
     height: 200px;
     width: 100%;
@@ -236,7 +257,7 @@
     display: flex;
   }
 
-  .designNavigatorSlideIn.active {
+  .designNavigator__slideIn.active {
     transform: translateY(-55px);
   }
 
@@ -260,11 +281,15 @@
     align-items: center;
   }
   
-  .designCanvasImage {
+  .designCanvas__image {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    transition: 0.25s ease;
   }
-
 </style>

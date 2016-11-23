@@ -8,6 +8,7 @@ export default class Fabric {
     this.sendBack = this.sendBack.bind(this);
     this.sendForward = this.sendForward.bind(this);
     this.addText = this.addText.bind(this);
+    this.changeColor = this.changeColor.bind(this);
   }
 
   addImage(imageUrl) {
@@ -58,6 +59,14 @@ export default class Fabric {
     this.fabric.renderAll();
   }
 
+  changeColor(newColor) {
+    const object = this.fabric.getActiveObject();
+    if (object) {
+      object.set('fill', newColor);
+      this.fabric.renderAll();
+    }
+  }
+
   methods() {
     return {
       addImg: this.addImage,
@@ -65,6 +74,7 @@ export default class Fabric {
       sendBack: this.sendBack,
       sendForward: this.sendBackwards,
       addText: this.addText,
+      changeColor: this.changeColor,
     };
   }
 }

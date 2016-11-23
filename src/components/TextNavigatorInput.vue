@@ -1,7 +1,7 @@
 <template>
-  <div class="artNavigatorSearch">
+  <div class="artNavigator__search">
     <input
-      class="artTermInput"
+      class="artTerm__input"
       type="text"
       :placeholder="canAddElements ? 'Add text' : 'Select a product first!'"
       :value="textInput"

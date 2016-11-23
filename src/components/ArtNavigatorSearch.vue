@@ -1,9 +1,9 @@
 
 
 <template>
-  <div class="artNavigatorSearch">
+  <div class="artNavigator__search">
     <input
-      class="artTermInput"
+      class="artTerm__input"
       type="text"
       :placeholder="canAddElements ? 'Search' : 'Select a product first!'"
       v-model="searchTerm"
@@ -39,7 +39,7 @@
 </script>
 
 <style>
-.artNavigatorSearch {
+.artNavigator__search {
   display: flex;
   align-items: center;
 }
@@ -48,7 +48,7 @@
   font-size: 12px;
   font-weight: 600;
 }
-.artTermInput {
+.artTerm__input {
   float: right;
   margin: 12px;
   padding: 5px 10px;
@@ -59,7 +59,7 @@
   background-color: #1F2532;
 }
 
-.artTermInput:focus {
+.artTerm__input:focus {
     outline: 0;
 }
 </style>

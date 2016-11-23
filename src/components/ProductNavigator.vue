@@ -6,7 +6,7 @@
         v-for="(item, index) in products"
       >
         <div
-          class="itemNavigatorItem"
+          class="itemNavigator__item"
           :class="{ active: selectedProductIndex === index }"
           v-on:click="changeProduct(index)"
           :style="{ backgroundImage: 'url(' + item.photo + ')' }" />
@@ -56,7 +56,7 @@
 </style>
 
 <style scoped>
-  .itemNavigatorItem {
+  .itemNavigator__item {
     flex: 1;
     background-position: center;
     background-size: cover;
@@ -65,11 +65,11 @@
     margin-top: 10px;
   }
 
-  .itemNavigatorItem.active {
+  .itemNavigator__item.active {
     border-color: rgb(47, 123, 189);
   }
 
-  .itemNavigatorItem:hover {
+  .itemNavigator__item:hover {
     opacity: 0.7;
   }
 

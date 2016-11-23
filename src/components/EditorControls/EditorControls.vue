@@ -1,6 +1,6 @@
 <template>
   <div class="editorControls">
-    <div class="editorControlsContainer">
+    <div class="editorControls__container">
       <ul class="controlsList">
         <li
           v-for="control in controls"
@@ -12,6 +12,7 @@
       <swatches
         v-model="colors"
         class="colorPicker"
+        @change-color="onColorChange"
         :class="{ active: toggleColorPicker }"
       />
     </div>
@@ -39,6 +40,7 @@
         }
       },
       onColorChange: function(color) { // eslint-disable-line
+        this.fabricMethod('changeColor', color.hex);
         this.colors = color;
       },
     },
@@ -58,6 +60,7 @@
   }
 
   .colorPicker {
+    z-index: 3;
     display: none;
     position: absolute;
     top: 105px;
@@ -75,7 +78,7 @@
     justify-content: center;
   }
 
-  .editorControlsContainer {
+  .editorControls__container {
     flex: 1;
     display: flex;
   }

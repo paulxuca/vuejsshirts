@@ -1,6 +1,6 @@
 <template>
   <div class="designNavigator">
-    <div class="designNavigatorContainer">
+    <div class="designNavigator__container">
       <ul class="navigationList">
         <li v-on:click="selectNavigatorTab('product')" v-bind:class="{ active: selectedNavigatorTab === 'product' }">Product</li>        
         <li v-on:click="selectNavigatorTab('art')" v-bind:class="{ active: selectedNavigatorTab === 'art' }">Art</li>
@@ -19,7 +19,7 @@
 </script>
 
 <style scoped>
-  .designNavigatorContainer {
+  .designNavigator__container {
     flex: 1;
     display: flex;
     align-items: center;
