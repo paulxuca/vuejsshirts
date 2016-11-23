@@ -66,6 +66,10 @@
         :fabric-method="fabricMethod"
         :class="{ displayNavigator: selectedNavigatorTab === 'text' }"
       />
+      <file-upload
+        class="navigator"
+        :class="{ displayNavigator: selectedNavigatorTab === 'upload' }"
+      />
     </div>
     <design-navigator
       :select-navigator-tab="selectNavigatorTab"
@@ -80,6 +84,8 @@
   import DesignNavigator from 'components/DesignNavigator';
   import ProductNavigator from 'components/ProductNavigator';
   import ArtNavigator from 'components/ArtNavigator';
+  import FileUpload from 'components/FileUpload';
+  
   import TextNavigator from 'components/TextNavigator/TextNavigator';
 
   import ArtNavigatorSearch from 'components/ArtNavigatorSearch';
@@ -104,6 +110,7 @@
       EditorControls,
       TextNavigator,
       ColorPicker,
+      FileUpload,
     },
     name: 'designer',
     data() {
@@ -123,25 +130,25 @@
         products: 'products',
         art: 'arts',
       }),
-      currentProduct: function() { // eslint-disable-line
+      currentProduct() {
         if (this.selectedProductIndex + 1) {
           return this.products[this.selectedProductIndex];
         }
         return undefined;
       },
-      currentProductColors: function () { // eslint-disable-line
+      currentProductColors() {
         if (this.currentProduct) {
           return this.currentProduct.colors;
         }
         return undefined;
       },
-      currentProductImage: function() { // eslint-disable-line
+      currentProductImage() {
         if (this.currentProduct) {
           return this.currentProduct.product;
         }
         return '';
       },
-      canAddElements: function() { // eslint-disable-line
+      canAddElements() {
         if (this.currentProduct) return true;
         return false;
       },

@@ -4,6 +4,7 @@ import { toJSON } from './utils';
 const apiBaseURl = 'http://localhost:3001';
 const apiUrls = {
   art: term => `${apiBaseURl}/api/art?term=${term}`,
+  upload: () => `${apiBaseURl}/api/upload`,
 };
 
 const constructRequest = (url, opts = {}) => {
@@ -22,6 +23,17 @@ const getProducts = () => new Promise((resolve) => {
   }
 });
 
+const uploadPhoto = data => new Promise((resolve, reject) => {
+  constructRequest(apiUrls.upload(), {
+    body: data,
+    method: 'POST',
+  })
+  .then(() => {
+    resolve('Done!');
+  })
+  .catch(err => reject(err));
+});
+
 const getArt = term => new Promise((resolve, reject) => {
   constructRequest(apiUrls.art(term))
     .then(toJSON)
@@ -34,5 +46,6 @@ const getArt = term => new Promise((resolve, reject) => {
 module.exports = {
   getProducts,
   getArt,
+  uploadPhoto,
 };
 
