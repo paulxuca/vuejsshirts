@@ -38,6 +38,7 @@
     display: inline-block;
     height: 20px;
     width: 20px;
+    box-shadow: inset 1px 1px 6px rgba(0, 0, 0, 0.15), inset -1px -1px 0 rgba(255, 255, 255, 0.25);
     border: 1px solid #EEE;
     border-radius: 100px;
   }

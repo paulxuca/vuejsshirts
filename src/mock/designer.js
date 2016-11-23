@@ -10,6 +10,9 @@ module.exports = {
       }, {
         name: 'Blue',
         color: 'rgb(100, 181, 246)',
+      }, {
+        name: 'white',
+        color: 'white',
       }],
     }, {
       name: 'Gilden Soft T-shirt',
